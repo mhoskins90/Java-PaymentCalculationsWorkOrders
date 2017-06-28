@@ -1,42 +1,91 @@
 //import Payments.Questions;
 
 import java.text.*;//USED FOR FORMATTING DECIMALS
+import java.util.*;//USED FOR USER INPUT
 
 public class Main {
+	public String continue_program  = "yes";
+	Scanner input = new Scanner(System.in);
 
-	public static void main(String[] args){
-		NumberFormat formatter = new DecimalFormat("#0.00");     
+	private String section_choice;
 
-		try{
-		Questions paymentQuestions = new Questions();
+	public void initial_question(){
+		System.out.print("Choose to access (P) Payments or (W) Work Orders:  ");
+		section_choice = input.nextLine();
+	}//END INITIAL QUESTION
 
+	public String getSectionChoice(){
+		return this.section_choice;
+	}//END GETTER
 
-		paymentQuestions.ask_questions();		
-
-		String questionType = paymentQuestions.getVariable("questionType");
-		String unitNumber = paymentQuestions.getVariable("unitNumber");
-		String amountDue = paymentQuestions.getVariable("amountDue");
-		String amountCollected= paymentQuestions.getVariable("amountCollected");
-		String dateDue = paymentQuestions.getVariable("dateDue");
-		String dateCollected= paymentQuestions.getVariable("dateCollected");
-
-		System.out.println("\nYour entered data:\n"+unitNumber+", "+amountDue+", "+amountCollected+", "+dateDue+", "+dateCollected);
-		int aDue = Integer.parseInt(amountDue);
-		int aCollected = Integer.parseInt(amountCollected);
-
-			float calculation = (float) aDue - aCollected;
-			System.out.println("Unit "+unitNumber+" still owes $"+ formatter.format(calculation));
+	public void setContinue(String var_continue){
+		if (var_continue.toLowerCase().equals("q")){
+			continue_program = var_continue;
 		}
-		catch(Exception e){
-			System.out.println("Error, "+e);
-		}
-
-
-		//System.out.println(questionType);
-		//paymentQuestions.ask_questions();
-		
-
-
-
 	}
-}
+
+	public static void main(String[] args){   
+		//Scanner input = new Scanner(System.in);
+		Main main = new Main();
+		//System.out.println(section_choice);
+
+		while ( main.continue_program.equals("yes") ){
+
+			main.initial_question();
+			String section_choice = main.getSectionChoice();
+
+			if ( section_choice.toLowerCase().equals("p")  ) {
+
+				try{//START PAYMENTS TRY
+				NumberFormat formatter = new DecimalFormat("#0.00"); 
+				PaymentQuestions paymentQuestions = new PaymentQuestions();
+
+				paymentQuestions.ask_questions();		
+
+				String questionType = paymentQuestions.getVariable("questionType");
+				String unitNumber = paymentQuestions.getVariable("unitNumber");
+				String amountDue = paymentQuestions.getVariable("amountDue");
+				String amountCollected= paymentQuestions.getVariable("amountCollected");
+				String dateDue = paymentQuestions.getVariable("dateDue");
+				String dateCollected= paymentQuestions.getVariable("dateCollected");
+
+				System.out.println("\nYour entered data:\n"+unitNumber+", "+amountDue+", "+amountCollected+", "+dateDue+", "+dateCollected);
+				int aDue = Integer.parseInt(amountDue);
+				int aCollected = Integer.parseInt(amountCollected);
+
+				float calculation = (float) aDue - aCollected;
+				System.out.println("Unit "+unitNumber+" still owes $"+ formatter.format(calculation));
+				}catch(Exception e){
+					System.out.println("Error in Payments:\n"+e);
+				}//END PAYMENTS TRY
+
+			}//END PAYMENTS CONDITIONAL
+			//-------------------------------------------------------------------------------------------------------------------------
+			else if ( section_choice.toLowerCase().equals("w")  ) {
+				try{//START WORK ORDER TRY
+				WorkOrderQuestions workOrderQuestions = new WorkOrderQuestions();
+
+				workOrderQuestions.ask_questions();		
+
+				String questionType = workOrderQuestions.getVariable("questionType");
+				String unitNumber = workOrderQuestions.getVariable("unitNumber");
+				String workOrderIssue = workOrderQuestions.getVariable("workOrderIssue");
+
+				System.out.println("\nYour entered data:\n"+unitNumber+", "+workOrderIssue);
+
+				System.out.println("Unit "+unitNumber+" has "+ workOrderIssue);
+				}catch(Exception e){
+					System.out.println("Error in Work Orders:\n"+e);
+				}//END WORK ORDER TRY
+
+			}//END WORK ORDERS CONDITIONAL
+
+			System.out.print("\nSelect (Q) Quit to stop:  ");
+			String continue_question = main.input.nextLine();//INPUT FROM MAIN OBJECT MAIN->INPUT
+			main.setContinue(continue_question);
+		}//END OUTER WHILE
+
+
+
+	}//END MAIN METHOD
+}//END PUBLIC CLASS MAIN
