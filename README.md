@@ -1,2 +1,2 @@
 # Java_PaymentCalculations_WorkOrders
-- Work in Progress
+- To run program, execute Main
