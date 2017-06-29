@@ -1,4 +1,8 @@
-import java.util.*;
+import java.lang.Integer;
+import java.util.Scanner;
+import java.lang.System;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;//USED FOR FORMATTING DECIMALS
 
 public abstract class Questions {
 	//UNIVERSAL
@@ -63,21 +67,69 @@ class PaymentQuestions extends Questions{
 
 	@Override
 	public void ask_questions(){
+		//DecimalFormat formatter = new DecimalFormat("#0.00");
+		QuestionValidation validate = new QuestionValidation("Payment");
 		Scanner input = new Scanner(System.in);
-		System.out.print("Enter Unit Number:  "); 
-		this.setVariable("unitNumber", input.nextLine());
+		while (true){
+			System.out.print("Enter Unit Number:  "); 
+			String concreteUnitNumber =  input.nextLine();
+			if (validate.validate_integer(concreteUnitNumber) == "good"){
+				//System.out.println("--INPUT VALID--");
+				this.setVariable("unitNumber", concreteUnitNumber);
+				break;
+			}else{
+				System.out.println("\nError, not an integer. Try again.\n");
+				continue;
+			}//END VALIDATION OF INT
+		}//END WHILE
 		//------------------------------------------------------
-		System.out.print("Enter Amount Due:  "); 
-		this.setVariable("amountDue", input.nextLine());
+		while(true){
+			System.out.print("Enter Amount Due:  "); 
+			String concreteAmountDue =  input.nextLine();
+			if (validate.validate_monetary_value(concreteAmountDue) == "good"){
+				this.setVariable("amountDue", concreteAmountDue );
+				break;
+			}else{
+				System.out.println("\nError, not monetary value. Try again.\n");
+				continue;
+			}//END VALIDATION CONDITIONAL
+		}//END WHILE
 		//------------------------------------------------------
-		System.out.print("Enter Amount Collected:  "); 
-		this.setVariable("amountCollected", input.nextLine());
+		while(true){
+			System.out.print("Enter Amount Collected:  "); 
+			String concreteAmountCollected =  input.nextLine();
+			if (validate.validate_monetary_value(concreteAmountCollected) == "good"){
+				this.setVariable("amountCollected", concreteAmountCollected );
+				break;
+			}else{
+				System.out.println("\nError, not monetary value. Try again.\n");
+				continue;
+			}//END VALIDATION CONDITIONAL
+		}//END WHILE
 		//------------------------------------------------------
-		System.out.print("Enter Date Due:  "); 
-		this.setVariable("dateDue", input.nextLine());
+		while(true){
+			System.out.print("Enter Date Due (mm/dd):  "); 
+			String concreteDateDue =  input.nextLine();
+			if (validate.validate_date(concreteDateDue) == "good"){
+				this.setVariable("dateDue", concreteDateDue );
+				break;
+			}else{
+				System.out.println("\nError, not correct date format. Try again.\n");
+				continue;
+			}//END VALIDATION CONDITIONAL
+		}//END WHILE
 		//------------------------------------------------------
-		System.out.print("Enter Date Collected:  "); 
-		this.setVariable("dateCollected", input.nextLine());
+		while(true){
+			System.out.print("Enter Date Collected (mm/dd):  "); 
+			String concreteDateCollected =  input.nextLine();
+			if (validate.validate_date(concreteDateCollected) == "good"){
+				this.setVariable("dateCollected", concreteDateCollected );
+				break;
+			}else{
+				System.out.println("\nError, not correct date format. Try again.\n");
+				continue;
+			}//END VALIDATION CONDITIONAL
+		}//END WHILE
 	}//END ASK QUESTIONS
 
 }//END CLASS PAYMENT QUESTIONS
@@ -85,17 +137,38 @@ class PaymentQuestions extends Questions{
 class WorkOrderQuestions extends Questions{
 	
 	public WorkOrderQuestions(){
-		this.questionType = "Rent";
+		this.questionType = "WorkOrder";
 	}//END CONSTRUCTOR
 
 	@Override
 	public void ask_questions(){
 		Scanner input = new Scanner(System.in);
-		System.out.print("Enter Unit Number:  "); 
-		this.setVariable("unitNumber", input.nextLine());
+		QuestionValidation validate = new QuestionValidation("WorkOrder");
+
+		while (true){
+			System.out.print("Enter Unit Number:  "); 
+			String concreteUnitNumber =  input.nextLine();
+			if (validate.validate_integer(concreteUnitNumber) == "good"){
+				//System.out.println("--INPUT VALID--");
+				this.setVariable("unitNumber", concreteUnitNumber);
+				break;
+			}else{
+				System.out.println("\nError, not an integer. Try again.\n");
+				continue;
+			}//END VALIDATION OF INT
+		}//END WHILE
 		//------------------------------------------------------
-		System.out.print("Enter Work Order Issue:  "); 
-		this.setVariable("workOrderIssue", input.nextLine());
+		while (true){
+			System.out.print("Enter Work Order Issue:  "); 
+			String conreteWorkOrderIssue = input.nextLine();
+			if (validate.validate_string_length(conreteWorkOrderIssue) == true){
+				this.setVariable("workOrderIssue", conreteWorkOrderIssue);
+				break;
+			}else{
+				System.out.println("\nError, must enter more than 2 characters. Try again.\n");
+				continue;
+			}
+		}//END WHILE
 	}//END ASK QUESTIONS
 
 }//END CLASS WORK ORDER QUESTIONS

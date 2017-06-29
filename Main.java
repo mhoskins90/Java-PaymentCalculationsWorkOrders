@@ -1,7 +1,9 @@
+
+import java.text.DecimalFormat;
+import java.util.Scanner;//USED FOR USER INPUT
+import java.text.NumberFormat;//USED FOR FORMATTING DECIMALS
 //import Payments.Questions;
 
-import java.text.*;//USED FOR FORMATTING DECIMALS
-import java.util.*;//USED FOR USER INPUT
 
 public class Main {
 	public String continue_program  = "yes";
@@ -37,7 +39,7 @@ public class Main {
 			if ( section_choice.toLowerCase().equals("p")  ) {
 
 				try{//START PAYMENTS TRY
-				NumberFormat formatter = new DecimalFormat("#0.00"); 
+				DecimalFormat formatter = new DecimalFormat("#0.00"); 
 				PaymentQuestions paymentQuestions = new PaymentQuestions();
 
 				paymentQuestions.ask_questions();		
@@ -50,11 +52,11 @@ public class Main {
 				String dateCollected= paymentQuestions.getVariable("dateCollected");
 
 				System.out.println("\nYour entered data:\n"+unitNumber+", "+amountDue+", "+amountCollected+", "+dateDue+", "+dateCollected);
-				int aDue = Integer.parseInt(amountDue);
-				int aCollected = Integer.parseInt(amountCollected);
+				float aDue = Float.parseFloat(amountDue);
+				float aCollected = Float.parseFloat(amountCollected);
 
 				float calculation = (float) aDue - aCollected;
-				System.out.println("Unit "+unitNumber+" still owes $"+ formatter.format(calculation));
+				System.out.println("Unit "+unitNumber+" still owes $"+ formatter.format(calculation) );
 				}catch(Exception e){
 					System.out.println("Error in Payments:\n"+e);
 				}//END PAYMENTS TRY
@@ -80,12 +82,9 @@ public class Main {
 
 			}//END WORK ORDERS CONDITIONAL
 
-			System.out.print("\nSelect (Q) Quit to stop:  ");
+			System.out.print("\nEnter (Q) Quit to stop | Anything else to continue:  ");
 			String continue_question = main.input.nextLine();//INPUT FROM MAIN OBJECT MAIN->INPUT
 			main.setContinue(continue_question);
 		}//END OUTER WHILE
-
-
-
 	}//END MAIN METHOD
 }//END PUBLIC CLASS MAIN
