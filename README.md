@@ -1,2 +1,2 @@
-# Java_PaymentCalculations_WorkOrders
+# Java Payment Calculations & WorkOrders
 - To run program, execute Main
